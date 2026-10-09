@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>Animal Timer</title>
+  <meta name="description" content="A visual timer for kids — a different hungry animal every day.">
+  <meta name="theme-color" content="#fff4d6">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Animal Timer">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Home: pick minutes -->
+  <main id="home" class="screen">
+    <header class="home-header">
+      <button class="today" id="animalBtn" aria-label="Change animal">
+        <span class="today-animal" id="todayAnimal">🐭</span>
+        <span>
+          <span class="today-label" id="todayLabel">Today's animal</span>
+          <span class="today-title" id="todayTitle">Mouse eats cheese</span>
+          <span class="today-hint">Tap to change</span>
+        </span>
+      </button>
+      <button class="icon-btn" id="settingsBtn" aria-label="Settings">⚙️</button>
+    </header>
+    <div class="minutes" id="minutes"></div>
+  </main>
+
+  <!-- Timer -->
+  <main id="timer" class="screen" hidden>
+    <header class="timer-bar">
+      <button class="icon-btn" id="stopBtn" aria-label="Stop timer">✕</button>
+      <div class="clock" id="clock">0:00</div>
+      <button class="icon-btn" id="pauseBtn" aria-label="Pause">⏸</button>
+    </header>
+    <div class="board-wrap" id="boardWrap">
+      <div class="board" id="board">
+        <div class="eater" id="eater"><span id="eaterEmoji">🐭</span></div>
+      </div>
+    </div>
+    <div class="paused-banner" id="pausedBanner" hidden>Paused</div>
+  </main>
+
+  <!-- Done -->
+  <div class="done" id="done" hidden>
+    <div class="done-animal" id="doneAnimal">🐭</div>
+    <p class="done-text" id="doneText">Yum! All the cheese is gone!</p>
+    <button class="big-btn" id="doneBtn">OK</button>
+  </div>
+
+  <!-- Animal picker -->
+  <dialog id="animalPicker">
+    <form method="dialog">
+      <h2>Pick an animal</h2>
+      <div class="animal-grid" id="animalGrid"></div>
+      <button class="big-btn" value="close">Close</button>
+    </form>
+  </dialog>
+
+  <!-- Settings -->
+  <dialog id="settings">
+    <form method="dialog">
+      <h2>Settings</h2>
+      <p class="hint">Show these minutes on the home screen:</p>
+      <div class="minute-checks" id="minuteChecks"></div>
+      <label class="toggle"><input type="checkbox" id="soundToggle"> Play sound when time is up</label>
+      <label class="toggle"><input type="checkbox" id="clockToggle"> Show remaining time</label>
+      <button class="big-btn" value="close">Done</button>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
