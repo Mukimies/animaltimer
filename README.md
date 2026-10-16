@@ -7,6 +7,8 @@ a dog eats sausages, a fly eats poop, and so on.
 Pick a number of minutes and a grid of `minutes × 6` foods appears. The animal eats
 one food every 10 seconds (so one row per minute). When the last one is gone, an alarm plays.
 
+Live at **https://mukimies.github.io/animaltimer/** (deployed from `main` via GitHub Pages).
+
 - No build step, no dependencies: plain HTML/CSS/JS.
 - Works offline once loaded (service worker in `sw.js`).
 - A running timer survives reloads and closing the app; it's based on timestamps.
