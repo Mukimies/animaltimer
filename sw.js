@@ -1,5 +1,5 @@
 // Bump VERSION whenever any app file changes so clients pick up the new cache.
-const VERSION = 'v2';
+const VERSION = 'v3';
 const CACHE = `animaltimer-${VERSION}`;
 const ASSETS = [
   './',

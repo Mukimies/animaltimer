@@ -3,29 +3,30 @@
 // ---------- Data ----------
 
 // Each animal has a face emoji, the food it eats, and a background color for its day.
+// flip: the emoji faces left, so mirror it to face the food (it eats left to right).
 const ANIMALS = [
   { name: 'Mouse',       emoji: '🐭', food: '🧀', foodName: 'cheese',     bg: '#fff4d6' },
-  { name: 'Horse',       emoji: '🐴', food: '🍎', foodName: 'apples',     bg: '#ffe3dc' },
+  { name: 'Horse',       emoji: '🐴', food: '🍎', foodName: 'apples',     bg: '#ffe3dc', flip: true },
   { name: 'Dog',         emoji: '🐶', food: '🌭', foodName: 'sausages',   bg: '#ffeccc' },
-  { name: 'Fly',         emoji: '🪰', food: '💩', foodName: 'poop',       bg: '#eef3d2' },
+  { name: 'Fly',         emoji: '🪰', food: '💩', foodName: 'poop',       bg: '#eef3d2', flip: true },
   { name: 'Rabbit',      emoji: '🐰', food: '🥕', foodName: 'carrots',    bg: '#e8f6dc' },
   { name: 'Monkey',      emoji: '🐵', food: '🍌', foodName: 'bananas',    bg: '#fff7c2' },
   { name: 'Panda',       emoji: '🐼', food: '🎋', foodName: 'bamboo',     bg: '#e3f4e1' },
   { name: 'Bear',        emoji: '🐻', food: '🍯', foodName: 'honey',      bg: '#fdebc8' },
   { name: 'Cat',         emoji: '🐱', food: '🐟', foodName: 'fish',       bg: '#dff0fb' },
-  { name: 'Squirrel',    emoji: '🐿️', food: '🌰', foodName: 'nuts',       bg: '#f6e6d6' },
+  { name: 'Squirrel',    emoji: '🐿️', food: '🌰', foodName: 'nuts',       bg: '#f6e6d6', flip: true },
   { name: 'Koala',       emoji: '🐨', food: '🌿', foodName: 'eucalyptus', bg: '#e4f1e8' },
-  { name: 'Bee',         emoji: '🐝', food: '🌼', foodName: 'flowers',    bg: '#fff6cf' },
+  { name: 'Bee',         emoji: '🐝', food: '🌼', foodName: 'flowers',    bg: '#fff6cf', flip: true },
   { name: 'Penguin',     emoji: '🐧', food: '🦐', foodName: 'shrimp',     bg: '#e0f0fb' },
   { name: 'Pig',         emoji: '🐷', food: '🌽', foodName: 'corn',       bg: '#ffe4ec' },
   { name: 'Frog',        emoji: '🐸', food: '🪰', foodName: 'flies',      bg: '#e6f5d6' },
-  { name: 'Bird',        emoji: '🐦', food: '🪱', foodName: 'worms',      bg: '#e2f1fb' },
-  { name: 'Caterpillar', emoji: '🐛', food: '🍃', foodName: 'leaves',     bg: '#ecf7d8' },
+  { name: 'Bird',        emoji: '🐦', food: '🪱', foodName: 'worms',      bg: '#e2f1fb', flip: true },
+  { name: 'Caterpillar', emoji: '🐛', food: '🍃', foodName: 'leaves',     bg: '#ecf7d8', flip: true },
   { name: 'Cow',         emoji: '🐮', food: '🌾', foodName: 'hay',        bg: '#f4f0dc' },
   { name: 'Hamster',     emoji: '🐹', food: '🌻', foodName: 'sunflowers', bg: '#fff1d0' },
-  { name: 'Shark',       emoji: '🦈', food: '🐙', foodName: 'octopuses',  bg: '#dcecf8' },
-  { name: 'Unicorn',     emoji: '🦄', food: '🍭', foodName: 'lollipops',  bg: '#f6e4fb' },
-  { name: 'Hedgehog',    emoji: '🦔', food: '🐌', foodName: 'snails',     bg: '#f1eadf' },
+  { name: 'Shark',       emoji: '🦈', food: '🐙', foodName: 'octopuses',  bg: '#dcecf8', flip: true },
+  { name: 'Unicorn',     emoji: '🦄', food: '🍭', foodName: 'lollipops',  bg: '#f6e4fb', flip: true },
+  { name: 'Hedgehog',    emoji: '🦔', food: '🐌', foodName: 'snails',     bg: '#f1eadf', flip: true },
 ];
 
 const MINUTE_OPTIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30, 40, 45, 50, 60];
@@ -148,6 +149,7 @@ function showTimer() {
   doneEl.hidden = true;
   timerEl.hidden = false;
   $('eaterEmoji').textContent = a.emoji;
+  $('eaterEmoji').style.setProperty('--flip', a.flip ? -1 : 1);
   clockEl.classList.toggle('hidden-clock', !settings.showClock);
 
   // Build the grid of food.
@@ -331,8 +333,8 @@ function releaseWakeLock() {
 function openAnimalPicker() {
   const grid = $('animalGrid');
   grid.replaceChildren();
-  const options = [{ name: null, label: 'Daily surprise', pics: '🎲' },
-    ...ANIMALS.map((a) => ({ name: a.name, label: a.name, pics: a.emoji + a.food }))];
+  const options = [{ name: null, label: 'Daily surprise', emoji: '🎲', food: '' },
+    ...ANIMALS.map((a) => ({ name: a.name, label: a.name, emoji: a.emoji, food: a.food, flip: a.flip }))];
   for (const o of options) {
     const b = document.createElement('button');
     b.type = 'button';
@@ -340,7 +342,10 @@ function openAnimalPicker() {
     b.setAttribute('aria-pressed', String(settings.animal === o.name));
     const pics = document.createElement('span');
     pics.className = 'pics';
-    pics.textContent = o.pics;
+    const animal = document.createElement('span');
+    animal.textContent = o.emoji;
+    if (o.flip) animal.className = 'flip';
+    pics.append(animal, o.food);
     b.append(pics, o.label);
     b.addEventListener('click', () => {
       settings.animal = o.name;

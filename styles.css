@@ -146,7 +146,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   pointer-events: none; z-index: 2;
   filter: drop-shadow(0 3px 2px rgba(0,0,0,.15));
 }
-.eater span { display: block; animation: chomp .5s ease-in-out infinite; }
+.eater span { display: block; transform: scaleX(var(--flip, 1)); animation: chomp .5s ease-in-out infinite; }
 .paused .eater span { animation: none; }
 .paused .board { opacity: .55; }
 
@@ -215,12 +215,13 @@ dialog .big-btn { display: block; margin: 18px auto 0; }
   font-size: 13px; font-weight: 700;
 }
 .animal-option .pics { font-family: var(--emoji-font); font-size: 30px; line-height: 1.1; }
+.animal-option .pics .flip { display: inline-block; transform: scaleX(-1); }
 .animal-option[aria-pressed="true"] { border-color: var(--accent); background: #fff; }
 
 /* ---------- Animations ---------- */
 @keyframes chomp {
-  0%, 100% { transform: translateY(0) rotate(-4deg); }
-  50% { transform: translateY(-8%) rotate(5deg) scale(1.05); }
+  0%, 100% { transform: scaleX(var(--flip, 1)) translateY(0) rotate(-4deg); }
+  50% { transform: scaleX(var(--flip, 1)) translateY(-8%) rotate(5deg) scale(1.05); }
 }
 @keyframes wiggle {
   0%, 100% { transform: rotate(-6deg); }
